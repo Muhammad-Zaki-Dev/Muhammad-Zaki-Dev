@@ -1,0 +1,171 @@
+﻿@model List<OnlineShoppingMVC.Models._Blog> 
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/CustomerLayout.cshtml";
+}
+
+<!-- START SECTION BREADCRUMB -->
+<div class="breadcrumb_section bg_gray page-title-mini">
+    <div class="container">
+        <!-- STRART CONTAINER -->
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <div class="page-title">
+                    <h1>Blog left sidebar</h1>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <ol class="breadcrumb justify-content-md-end">
+                    <li class="breadcrumb-item"><a href="/Index/Index">Home</a></li>
+                    <li class="breadcrumb-item"><a href="#">All Blog</a></li>
+                    
+                </ol>
+            </div>
+        </div>
+    </div><!-- END CONTAINER-->
+</div>
+<!-- END SECTION BREADCRUMB -->
+<!-- START MAIN CONTENT -->
+<div class="main_content">
+
+    <!-- START SECTION BLOG -->
+    <div class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-9">
+                    <div class="row">
+                        @foreach (var item in Model.Skip(3).OrderByDescending(a=>a.BlogID))
+                        {
+                        <div class="col-xl-4 col-md-6">
+                            <div class="blog_post blog_style2 box_shadow1">
+                                <div class="blog_img">
+                                    <a href="blog-single.html">
+                                        <img src="@item.BlogImage" alt="blog_small_img1" width="50px" height="200px">
+                                    </a>
+                                </div>
+                                <div class="blog_content bg-white">
+                                    <div class="blog_text">
+                                        <h6 class="blog_title"><a href="/CustomerBlog/SingleBlog?BlogID=@item.BlogID" >@item.POstTitle</a></h6>
+                                        <ul class="list_none blog_meta">
+                                            <li><a href="#"><i class="ti-calendar"></i> @item.PostedDate</a></li>
+                                            <li><a href="#"><i class="ti-comments"></i> 10</a></li>
+                                        </ul>
+                                        <p>@Html.Raw(item.BlogDescription.Substring(0,20))</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        }
+                        
+                    
+                    </div>
+                    <div class="row">
+                        <div class="col-12 mt-2 mt-md-4">
+                            <ul class="pagination pagination_style1 justify-content-center">
+                                <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1"><i class="linearicons-arrow-left"></i></a></li>
+                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item"><a class="page-link" href="#"><i class="linearicons-arrow-right"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 order-lg-first mt-4 pt-2 mt-lg-0 pt-lg-0">
+                    <div class="sidebar">
+                        <div class="widget">
+                            <div class="search_form">
+                                <form>
+                                    <input required="" class="form-control" placeholder="Search..." type="text">
+                                    <button type="submit" title="Subscribe" class="btn icon_search" name="submit" value="Submit">
+                                        <i class="ion-ios-search-strong"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="widget">
+                            <h5 class="widget_title">Recent Posts</h5>
+                            <ul class="widget_recent_post">
+                                @foreach (var item in Model.Take(3).OrderByDescending(a=>a.BlogID))
+                                {
+                                    <li>
+                                        <div class="post_footer">
+                                            <div class="post_img">
+                                                <a href="#"><img src="@item.BlogImage" alt="letest_post1"></a>
+                                            </div>
+                                            <div class="post_content">
+                                                <h6><a href="/CustomerBlog/SingleBlog?BlogID=@item.BlogID">@item.POstTitle</a></h6>
+                                                <p class="small m-0">@item.PostedDate</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                }
+
+
+                            </ul>
+                        </div>
+                        <div class="widget">
+                            <h5 class="widget_title">Archive</h5>
+                            <ul class="widget_archive">
+                                <li><a href="#"><span class="archive_year">June 2019</span><span class="archive_num">(12)</span></a></li>
+                                <li><a href="#"><span class="archive_year">May 2019</span><span class="archive_num">(5)</span></a></li>
+                                <li><a href="#"><span class="archive_year">March 2018</span><span class="archive_num">(6)</span></a></li>
+                                <li><a href="#"><span class="archive_year">January 2018</span><span class="archive_num">(7)</span></a></li>
+                                <li><a href="#"><span class="archive_year">April 2017</span><span class="archive_num">(10)</span></a></li>
+                            </ul>
+                        </div>
+                        <div class="widget">
+                            <div class="shop_banner">
+                                <div class="banner_img overlay_bg_20">
+                                    <img src="/assets/images/sidebar_banner_img.jpg" alt="sidebar_banner_img">
+                                </div>
+                                <div class="shop_bn_content2 text_white">
+                                    <h5 class="text-uppercase shop_subtitle">New Collection</h5>
+                                    <h3 class="text-uppercase shop_title">Sale 30% Off</h3>
+                                    <a href="#" class="btn btn-white rounded-0 btn-sm text-uppercase">Shop Now</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="widget">
+                            <h5 class="widget_title">tags</h5>
+                            <div class="tags">
+                                <a href="#">General</a>
+                                <a href="#">Design</a>
+                                <a href="#">jQuery</a>
+                                <a href="#">Branding</a>
+                                <a href="#">Modern</a>
+                                <a href="#">Blog</a>
+                                <a href="#">Quotes</a>
+                                <a href="#">Advertisement</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END SECTION BLOG -->
+    <!-- START SECTION SUBSCRIBE NEWSLETTER -->
+    <div class="section bg_default small_pt small_pb">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <div class="heading_s1 mb-md-0 heading_light">
+                        <h3>Subscribe Our Newsletter</h3>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="newsletter_form">
+                        <form>
+                            <input type="text" required="" class="form-control rounded-0" placeholder="Enter Email Address">
+                            <button type="submit" class="btn btn-dark rounded-0" name="submit" value="Submit">Subscribe</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- START SECTION SUBSCRIBE NEWSLETTER -->
+    
+</div>
+<!-- END MAIN CONTENT -->

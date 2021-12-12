@@ -1,0 +1,262 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="page-title-box">
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="state-information d-none d-sm-block">
+                    <div class="state-graph">
+                        <div id="header-chart-1"></div>
+                        <div class="info">Balance $ 2,317</div>
+                    </div>
+                    <div class="state-graph">
+                        <div id="header-chart-2"></div>
+                        <div class="info">Item Sold 1230</div>
+                    </div>
+                </div>
+
+                <h4 class="page-title">Form Validation</h4>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="javascript:void(0);">Agroxa</a></li>
+                    <li class="breadcrumb-item"><a href="javascript:void(0);">Forms</a></li>
+                    <li class="breadcrumb-item active">News Form</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <!-- end container-fluid -->
+
+</div>
+<!-- page-tiWtle-box -->
+
+<div class="page-content-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card m-b-20">
+                    <div class="card-body">
+                        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#ModalProduct">Add News</button>
+
+                        <div id="FrmProduct">
+
+
+                        </div>
+
+                    </div>
+                    <div class="card-body">
+                        <div id="DivPartial">
+
+
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- end col -->
+
+
+        </div> <!-- end row -->
+    </div>
+    @section script{
+        <script>
+            $(document).ready(function () {
+                $('#datatable').DataTable();
+                GetProductList();
+                GetProductForm();
+                AllForms();
+                
+            });
+
+           
+                function GetSubcategoryByCategoryID() {
+
+                var categoryId = $("#CategoryID").val();
+                    var DropDown = $("#SubCategoryID");
+                $.ajax({
+                    type: 'Get',
+                    url: '/AdminProduct/GetSubCategory',
+                    data: { categoryId: categoryId },
+                    success: function (res) {
+                        DropDown.empty();
+                  
+                        for (var i = 0; i < res.length; i++) {
+                            DropDown.append($("<option>").val(res[i].SubCategoryID).text(res[i].SubCategoryName));
+                        }
+                    }
+
+                });
+
+
+                @*var CateID = $('#ddlCategory').val();
+                var opt = document.createElement('option');
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("GetSubCategory","AdminProduct")',
+                    data: { CategoryID: CateID },
+                    success: function (res) {
+
+                        $('#ddlSubcategory').find('option').remove().end();
+
+                        for (var i = 0; i < res.length; i++) {
+
+                            opt.value = res[i].SubCategoryID;
+                            opt.text = res[i].SubCategoryName;
+                            $('#ddlSubcategory').append(new Option(opt.text, opt.value));
+
+                        }
+
+                    }
+                });*@
+            }
+
+            function GetProductList() {
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("GetTable", "AdminProduct")',
+                    success: function (res) {
+                        $('#DivPartial').html(res);
+                        $('#datatable').DataTable();
+                    }
+                });
+            }
+            function GetProductForm() {
+                $.ajax({
+                    type: 'GET',
+                    url:  '@Url.Action("GetProductForm", "AdminProduct")',
+                    success: function (res) {
+                        $('#FrmProduct').html(res);
+                    }
+                });
+            }
+
+            function EditProduct(ID) {
+                $.ajax({
+                    type: 'GET',
+                    url: '/AdminProduct/Update',
+                    data: { ProductID: ID },
+                    success: function (res) {
+                        $('#FrmProduct').html(res);
+                        $("#MadolProduct").modal('show');
+                    }
+                });
+
+            }
+
+            function DeleteProduct(ID) {
+                $.ajax({
+                    type: 'GET',
+                    url: '/AdminProduct/Delete',
+                    data: { ProductID: ID },
+                    success: function (res) {
+                        if (res == 1) {
+                            toastr.info("Data is Deleted");
+                            GetSubCategoryList();
+                        }
+                    }
+                });
+
+            }
+
+
+
+            function GetUnitForm() {
+                $.ajax({
+                    type: 'GET',
+                    url: '/AdminUnit/GetUnitForm',
+                    success: function (res) {
+                        $('#FrmUnit').html(res);
+                    }
+                });
+            }
+            function GetColorForm() {
+                $.ajax({
+                    type: 'GET',
+                    url: '/AdminColor/GetFormColor',
+                    success: function (res) {
+                        $('#FrmColor').html(res);
+                    }
+                });
+            }
+            function GetSizeForm() {
+                $.ajax({
+                    type: 'GET',
+                    url: '/AdminSize/GetFormSize',
+                    success: function (res) {
+                        $('#FrmSize').html(res);
+                    }
+                });
+            }
+            function GetCategoryForm() {
+                $.ajax({
+                    type: 'GET',
+                    url: '/AdminCategory/GetCategoryForm',
+                    success: function (res) {
+                        $('#FrmCategory').html(res);
+
+                    }
+                });
+            }
+            function GetSubCategoryForm() {
+                $.ajax({
+                    type: 'GET',
+                    url: '/AdminSubCategory/GetFormSubCategory',
+                    success: function (res) {
+                        $('#FrmSubCartegory').html(res);
+                    }
+                });
+            }
+            function GetDescriptionForm() {
+                $.ajax({
+                    type: 'GET',
+                    url: '/Description/DescriptionForm',
+                    success: function (res) {
+                        $('#FrmDescription').html(res);
+                    }
+                });
+            }
+            function AllForms() {
+                GetDescriptionForm();
+                GetSubCategoryForm();
+                GetCategoryForm();
+                GetSizeForm();
+                GetColorForm();
+                GetUnitForm();
+
+            }
+           
+            function Reload() {
+                GetProductForm();
+                $('MadolProduct').modal('show')
+            }
+
+        </script>
+    }
+
+    <div id="FrmDescription">
+
+
+    </div>
+    <div id="FrmSubCartegory">
+
+
+    </div>
+    <div id="FrmCategory">
+
+
+    </div>
+    <div id="FrmSize">
+
+
+    </div>
+    <div id="FrmColor">
+
+
+    </div>
+    <div id="FrmUnit">
+
+
+    </div>
+    <!-- end container-fluid -->
+</div>

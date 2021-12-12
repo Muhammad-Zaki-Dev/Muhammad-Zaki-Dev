@@ -1,0 +1,34 @@
+﻿@model  List<OnlineShoppingMVC.Models._Brand>
+<table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+    <thead>
+        <tr>
+            <th>Brand Name</th>
+            <th>Image</th>
+
+            <th>Status</th>
+            <th>Edit </th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+
+
+    <tbody>
+     
+       @foreach (var item in Model)
+       {
+        <tr>
+            <td>@item.BrandName</td>
+            <td><center><img src="@item.BrandImage" alt="Alternate Text" width="100px" height="60px" /></center></td>
+            <td>@item.Status</td>
+            <td><a href="#" onclick="EditBrand(@item.BrandID);" class="btn btn-danger"><i class="fa fa-edit"></i></a></td>
+            <td><a href="#" onclick="DeleteBrand(@item.BrandID);" class="btn btn-primary"><i class="fa fa-trash"></i></a></td>
+
+
+        </tr>
+       }
+     
+
+
+
+    </tbody>
+</table>

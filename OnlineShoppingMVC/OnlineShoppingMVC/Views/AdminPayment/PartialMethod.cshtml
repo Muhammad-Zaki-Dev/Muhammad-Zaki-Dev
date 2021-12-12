@@ -1,0 +1,29 @@
+﻿@model  List<OnlineShoppingMVC.Models._PaymentMethod>
+<table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+    <thead>
+        <tr>
+            <th>Method Name</th>
+            <th>Status</th>
+            <th>Edit </th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Method</td>
+                <td>@item.Status</td>
+                <td><a href="javascript:void(0);" onclick="EditMethod(@item.MethodID);" class="btn btn-danger"><i class="fa fa-edit"></i></a></td>
+                <td><a href="javascript:void(0);" onclick="DeleteMethod(@item.MethodID);" class="btn btn-primary"><i class="fa fa-trash"></i></a></td>
+
+
+            </tr>
+        }
+
+
+
+    </tbody>
+</table>

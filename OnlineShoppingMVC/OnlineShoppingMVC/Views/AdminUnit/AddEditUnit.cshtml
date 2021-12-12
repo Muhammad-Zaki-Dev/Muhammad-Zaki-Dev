@@ -1,0 +1,84 @@
+﻿@model OnlineShoppingMVC.Models._Unit
+<div class="modal fade" id="ModalUnit" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add Unit</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+
+                <form id="SaveUnit" method="post">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Color</label>
+                                @if (Model != null)
+                                {
+                                    <input type="hidden" id="ColorID" name="ColorID" value="@Model.UnitID" />
+                                }
+
+                                @Html.TextBoxFor(a => a.Unit, new { @class = "form-control", placeholder = "Type Unit" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Status</label>
+                                @Html.DropDownListFor(a => a.UnitStatus, new List<SelectListItem>
+                            {
+                                new SelectListItem{Text="Active",Value="1"},
+                                new SelectListItem{Text="In-Active",Value="0"}
+                                 }, "select Status", new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <input type="submit" class="btn btn-primary" form="SaveUnit" value="Submit" />
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <script>
+            $(document).ready(function () {
+
+                SaveCategory();
+            });
+
+            function SaveCategory() {
+                $('#SaveUnit').submit(function (event) {
+                    event.preventDefault();
+                    var check = $(this).valid();
+                    debugger;
+                    if (!check) {
+                        return false;
+                    } else {
+                        var frmdata = new FormData(document.getElementById('SaveUnit'));
+                        $.ajax({
+                            type: 'POST',
+                            url: '/AdminUnit/Save',
+                            processData: false,
+                            contentType: false,
+                            data: frmdata,
+                            success: function (res) {
+                                if (res == 1) {
+                                    toastr.success("Data is Saved");
+                                } else if (res = 2) {
+                                    toastr.success("Data is Updated");
+                                }
+                                $('#UnitID').val(null);
+                                GetUnitList();
+                            }
+                        });
+                    }
+                });
+            }
+    </script>
+
+
+</div>

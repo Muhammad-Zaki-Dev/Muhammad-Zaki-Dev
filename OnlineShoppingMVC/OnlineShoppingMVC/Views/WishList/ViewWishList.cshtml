@@ -1,0 +1,25 @@
+﻿@model List<OnlineShoppingMVC.Models._WishList>
+<li class="dropdown cart_dropdown">
+    <a class="nav-link cart_trigger" href="#" data-toggle="dropdown"><i class="linearicons-bag2"></i><span class="cart_count">@Model.Count()<label id="CountItem" style="color:white"></label></span><span class="amount"><span class="currency_symbol"></span></span></a>
+    <div class="cart_box cart_right dropdown-menu dropdown-menu-right">
+        <ul class="cart_list">
+            @foreach (var item in Model.OrderByDescending(a => a.WishListID).Take(2))
+            {
+
+                <li>
+                    <a href="#" class="item_remove"><i class="ion-close"></i></a>
+                    <a href="#"><img src="@item.ProductImage" alt="cart_thumb1">@item.ProductName</a>
+                </li>
+
+
+            }
+        </ul>
+
+        <div class="cart_footer">
+            <p class="cart_buttons">
+                <a href="#" class="btn btn-fill-line view-cart">View Cart</a>
+                <a href="#" class="btn btn-fill-out checkout">Checkout</a>
+            </p>
+        </div>
+    </div>
+</li>

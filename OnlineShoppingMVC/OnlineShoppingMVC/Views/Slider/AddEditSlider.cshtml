@@ -1,0 +1,90 @@
+﻿@model OnlineShoppingMVC.Models._Slider
+<div class="modal fade" id="ModalSlider" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add Size</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+
+                <form id="FrmSaveSlider" method="post" enctype="multipart/form-data">
+                    @if (Model!=null)
+                    {
+                    <input type="hidden" name="SliderID" id="SliderID" value="@Model.SliderID" />
+                    }
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Status</label>
+                            @Html.DropDownListFor(a => a.Status, new List<SelectListItem>
+                        {
+                            new SelectListItem{Text="Active",Value="1"},
+                            new SelectListItem{Text="In-Active",Value="0"}
+                             }, "select Status", new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Size</label>
+                            @if (Model != null)
+                            {
+                                @Html.TextBoxFor(a => a.Image, new { type = "file", data_default_file =Model.SliderImage, @class = "form-control dropfiy", placeholder = "Choose Image" }) }
+                            else
+                            {
+                                @Html.TextBoxFor(a => a.Image, new { type = "file", @class = "form-control dropfiy", placeholder = "Choose Image" })
+
+                            }
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-sm-6">
+                        <input type="submit" class="btn btn-primary" form="FrmSaveSlider" value="Submit" />
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+
+    <script src="~/AdminAssets/plugins/dropify/js/dropify.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.dropfiy').dropify();
+            Save();
+        });
+
+        function Save() {
+            $('#FrmSaveSlider').submit(function (event) {
+                event.preventDefault();
+                var check = $(this).valid();
+                debugger;
+                if (!check) {
+                    return false;
+                } else {
+                    var frmdata = new FormData(document.getElementById('FrmSaveSlider'));
+                    $.ajax({
+                        type: 'POST',
+                        url: '/Slider/Save',
+                        processData: false,
+                        contentType: false,
+                        data: frmdata,
+                        success: function (res) {
+                            if (res == 1) {
+                                toastr.success("Data is Saved");
+                            } else if (res = 2) {
+                                toastr.success("Data is Updated");
+                            }
+                            $('#SliderID').val(null);
+                            GetSliderList();
+                        }
+                    });
+                }
+            });
+        }
+    </script>
+
+
+</div>

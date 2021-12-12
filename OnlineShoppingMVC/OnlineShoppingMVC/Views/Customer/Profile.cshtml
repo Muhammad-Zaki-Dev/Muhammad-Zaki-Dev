@@ -1,0 +1,66 @@
+﻿
+@{
+    Layout = null;
+}
+
+<html>
+<head>
+    <link href="~/AdminAssets/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/AdminAssets/Profile.css" rel="stylesheet" />
+    <link href="~/AdminAssets/plugins/dropify/css/dropify.css" rel="stylesheet" />
+    <link href="~/AdminAssets/plugins/toastr/toastr.min.css" rel="stylesheet" />
+
+</head>
+<body>
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <div class="container">
+        <div class="main-body">
+
+            <!-- Breadcrumb -->
+            <nav aria-label="breadcrumb" class="main-breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">User</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">User Profile</li>
+                </ol>
+            </nav>
+            <!-- /Breadcrumb -->
+            <div id="DivProfile"></div>
+
+
+        </div>
+    </div>
+
+    <script src="~/AdminAssets/plugins/dropify/js/dropify.min.js"></script>
+    <script src="~/AdminAssets/plugins/toastr/toastr.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('.dropify').dropify();
+            GetProfile();
+        });
+        function GetProfile() {
+            $.ajax({
+                type: 'Get',
+                url: '/Customer/GetProfile',
+                success: function (res) {
+                    $('#DivProfile').html(res);
+                }
+            });
+        }
+        function LoadData(ID) {
+            $.ajax({
+                type: 'Get',
+                url: '/Customer/EditProfile',
+                data: { UserID: ID },
+                success: function (res) {
+                    $('#DivEditProfile').html(res);
+                }
+            });
+
+
+        }
+    </script>
+</body>
+
+</html>

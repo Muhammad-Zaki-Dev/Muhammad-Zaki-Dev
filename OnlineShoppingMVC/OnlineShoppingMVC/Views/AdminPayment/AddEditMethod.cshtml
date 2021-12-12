@@ -1,0 +1,84 @@
+﻿@model  OnlineShoppingMVC.Models._PaymentMethod
+<div class="modal fade" id="ModalMethod" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add Method</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                
+                <form id="SaveMethod" method="post">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @if (Model != null)
+                                {
+                                    <input type="hidden" name="MethodID" id="MethodID" value="@Model.MethodID" />
+                                }
+                                <label>Method</label>
+                             
+                                @Html.TextBoxFor(a => a.Method, new { @class = "form-control", placeholder = "Type Size" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Status</label>
+                                @Html.DropDownListFor(a => a.MethodStatus, new List<SelectListItem>
+                            {
+                                new SelectListItem{Text="Active",Value="1"},
+                                new SelectListItem{Text="In-Active",Value="0"}
+                                 }, "select Status", new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <input type="submit" class="btn btn-primary" form="SaveMethod" value="Submit" />
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <script>
+            $(document).ready(function () {
+
+                SaveSize();
+            });
+
+            function SaveSize() {
+                $('#SaveMethod').submit(function (event) {
+                    event.preventDefault();
+                    var check = $(this).valid();
+                    debugger;
+                    if (!check) {
+                        return false;
+                    } else {
+                        var frmdata = new FormData(document.getElementById('SaveMethod'));
+                        $.ajax({
+                            type: 'POST',
+                            url: '/AdminPayment/Save',
+                            processData: false,
+                            contentType: false,
+                            data: frmdata,
+                            success: function (res) {
+                                if (res == 1) {
+                                    toastr.success("Data is Saved");
+                                } else if (res = 2) {
+                                    toastr.success("Data is Updated");
+                                }
+                                $('#MethodID').val(null);
+                                GetMethodList();
+                            }
+                        });
+                    }
+                });
+            }
+    </script>
+
+
+</div>

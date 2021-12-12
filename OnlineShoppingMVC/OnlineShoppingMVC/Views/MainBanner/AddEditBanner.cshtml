@@ -1,0 +1,89 @@
+﻿@model OnlineShoppingMVC.Models._MainBanner
+@if (Model != null)
+{
+    <input type="hidden" id="HdImage" i value="@Model.BannerImage" />
+}
+<div class="modal fade" id="MyModalbanner" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add Banner</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+
+                <form id="Savebanner" method="post" enctype="multipart/form-data">
+                    
+
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                @if (Model != null)
+                                {
+                                    <input type="hidden" name="BannerID" id="BannerID" value="@Model.BannerID" />
+                                }
+                                <label>Image</label>
+                                @Html.TextBoxFor(a => a.Image, new { @class = "form-Control dropify", type = "file" })
+                            </div>
+                        </div>
+
+                   
+                    </div>
+                    <div class="col-sm-6">
+                        <input type="submit" class="btn btn-primary" form="Savebanner" value="Submit" />
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+
+    <script src="~/AdminAssets/plugins/dropify/js/dropify.min.js"></script>
+    <script src="~/AdminAssets/plugins/tinymce/tinymce.min.js"></script>
+    <script src="~/AdminAssets/plugins/tinymce/tinymce-data.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            SaveBanner();
+            $('.dropify').dropify();
+
+
+        });
+
+        function SaveBanner() {
+            $('#Savebanner').submit(function (sub) {
+
+                sub.preventDefault();
+                var check = $(this).valid();
+                if (!check) {
+                    return false;
+                } else {
+                    var frmdata = new FormData(document.getElementById('Savebanner'));
+                    $.ajax({
+                        type: 'POST',
+                        url: '/MainBanner/Save',
+                        processData: false,
+                        contentType: false,
+                        data: frmdata,
+                        success: function (res) {
+                            if (res == 1) {
+                                toastr.success("Data is Saved");
+                            } else if (res == 2) {
+                                toastr.success("Data is Updated");
+                            }
+                            $('#BannerID').val(null);
+                            GetBanner();
+                        }
+
+                    });
+                }
+            });
+        }
+    </script>
+
+
+</div>
+
+

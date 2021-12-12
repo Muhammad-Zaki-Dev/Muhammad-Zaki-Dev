@@ -1,0 +1,120 @@
+﻿@model OnlineShoppingMVC.Models._User
+<div class="card-body">
+    <form  enctype="multipart/form-data" id="FrmProfile">
+        <div class="row">
+            <div class="col-lg-6 ">
+                @if (Model != null)
+                {
+                    <input type="hidden" name="UserID" value="@Model.UserID" id="UserID" />
+                }
+
+                <label class="label">Name</label>
+                @Html.TextBoxFor(a => a.UserName, new { @Class = "form-control", placeholder = "UserName" })
+            </div>
+            <div class="col-lg-6 ">
+                <label class="label">Email</label>
+                @Html.TextBoxFor(a => a.UserEmail, new { @Class = "form-control", placeholder = "UserName" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 ">
+                <label class="label">Contact</label>
+                @Html.TextBoxFor(a => a.UserContact, new { @Class = "form-control", placeholder = "UserName" })
+            </div>
+            <div class="col-lg-6 ">
+                <label class="label">PassWord</label>
+                @Html.TextBoxFor(a => a.Password, new { @Class = "form-control", placeholder = "UserName" })
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-lg-6 ">
+                <label class="label">New Password</label>
+                <input class="form-control" id="NewPassword" />
+            </div>
+            <div class="col-lg-6 ">
+                <label class="label">Confrim Password</label>
+                <input class="form-control" id="ConfrimPassWord" />
+                <label class="label" id="lblmessage" style="color:red"></label>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 ">
+                <label class="label">Zip Code</label>
+                @Html.TextBoxFor(a => a.ZipCode, new { @Class = "form-control", placeholder = "ZipCodes" })
+            </div>
+            <div class="col-lg-6 ">
+                <label class="label">Gender</label>
+                @Html.DropDownListFor(a => a.UserGender, new List<SelectListItem> { new SelectListItem { Text = "Male", Value = "1" }, new SelectListItem { Text = "Female", Value = "0" } }, "Select Gender", new { @Class = "form-control", placeholder = "Gender" })
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-lg-6 ">
+                <label class="label">Image</label>
+                @Html.TextBoxFor(a => a.Image, new { @Class = "form-control dropify", placeholder = "UserName", type = "File", style = "height=318px !important" })
+            </div>
+            <div class="col-lg-6 ">
+                <label class="label">Address</label>
+                @Html.TextAreaFor(a => a.UserAddress, new { @Class = "form-control tinymce", placeholder = "UserName" })
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <input value="Update"  class="btn btn-info" form="FrmProfile" type="submit" />
+                @*<a class="btn btn-info " href="#">Edit</a>*@
+            </div>
+        </div>
+
+    </form>
+   
+    <script src="~/AdminAssets/plugins/tinymce/tinymce.min.js"></script>
+    <script src="~/AdminAssets/plugins/tinymce/tinymce-data.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            $('.dropify').dropify();
+
+            $('.dropify-wrapper').css('height', "300px");
+            UpdateProfile();
+
+        });
+     
+        function UpdateProfile() {
+            $('#FrmProfile').submit(function () {
+                var New = $('#NewPassword').val();
+                var confrim = $('#ConfrimPassWord').val();
+                debugger;
+           
+                if (New == confrim) {
+                    var frmdata = new FormData(document.getElementById('FrmProfile'));
+                    $.ajax({
+                        type: 'Post',
+                        url: '/Customer/Registration',
+                        processData: false,
+                        contentType: false,
+                        data: frmdata,
+                        success: function (res) {
+                            if (res == 1) {
+                                toastr.success("Your Profile is Update");
+                                GetProfile();
+                            }
+                        }
+
+
+
+                    });
+                }
+                else {
+                    $('#lblmessage').text('Password are not matched');
+                }
+              
+            });
+        }
+
+    </script>
+</div>

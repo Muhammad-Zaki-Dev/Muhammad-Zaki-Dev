@@ -1,0 +1,138 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="page-title-box">
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="state-information d-none d-sm-block">
+                    <div class="state-graph">
+                        <div id="header-chart-1"></div>
+                        <div class="info">Balance $ 2,317</div>
+                    </div>
+                    <div class="state-graph">
+                        <div id="header-chart-2"></div>
+                        <div class="info">Item Sold 1230</div>
+                    </div>
+                </div>
+
+                <h4 class="page-title">Form Validation</h4>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="javascript:void(0);">Agroxa</a></li>
+                    <li class="breadcrumb-item"><a href="javascript:void(0);">Forms</a></li>
+                    <li class="breadcrumb-item active">SubCategory Form</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <!-- end container-fluid -->
+
+</div>
+<!-- page-tiWtle-box -->
+
+<div class="page-content-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card m-b-20">
+                    <div class="card-body">
+                        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModalSubCategory">Add SubCategory</button>
+
+                        <div id="FrmSubCartegory">
+
+
+                        </div>
+
+                    </div>
+                    <div class="card-body">
+                        <div id="DivPartial">
+
+
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- end col -->
+
+
+        </div> <!-- end row -->
+        <div id="FrmCategory"></div>
+
+    </div>
+    </div>
+    <!-- end container-fluid -->
+    @section script{
+        <script>
+
+
+            $(document).ready(function () {
+                GetSubCategoryForm();
+                GetCategoryForm();
+
+                GetSubCategoryList();
+
+
+            });
+              function GetCategoryForm() {
+                $.ajax({
+                    type: 'GET',
+                    url: '/AdminCategory/GetCategoryForm',
+                    success: function (res) {
+                        $('#FrmCategory').html(res);
+                    }
+                });
+            }
+            function GetSubCategoryList() {
+                $.ajax({
+                    type: 'GET',
+                    url: '/AdminSubCategory/_GetTable',
+                    success: function (res) {
+                        $('#DivPartial').html(res);
+                        $('#datatable').DataTable();
+                    }
+                });
+            }
+            function GetSubCategoryForm() {
+                $.ajax({
+                    type: 'GET',
+                    url: '/AdminSubCategory/GetFormSubCategory',
+                    success: function (res) {
+                        $('#FrmSubCartegory').html(res);
+                    }
+                });
+            }
+
+            function EditSubCategory(ID) {
+                $.ajax({
+                    type: 'GET',
+                    url: '/AdminSubCategory/Update',
+                    data: { SubCategoryID: ID },
+                    success: function (res) {
+                        $('#FrmSubCategory').html(res);
+                        $("#myModal").modal('show');
+                    }
+                });
+
+            }
+            function DeleteSubCategory(ID) {
+                $.ajax({
+                    type: 'GET',
+                    url: '/AdminSubCategory/Delete',
+                    data: { SubCategoryID: ID },
+                    success: function (res) {
+                        if (res == 1) {
+                            toastr.info("Data is Deleted");
+                            GetSubCategoryList();
+                        }
+                    }
+                });
+
+            }
+        </script>
+    }
+
+
+<!-- end page content--> 

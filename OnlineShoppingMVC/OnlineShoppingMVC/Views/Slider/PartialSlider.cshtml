@@ -1,0 +1,31 @@
+﻿@model List<OnlineShoppingMVC.Models._Slider>
+<table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+    <thead>
+        <tr>
+            <th>Slider Image</th>
+
+            <th>Status</th>
+            <th>Edit </th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+
+
+    <tbody>
+      @foreach (var item in Model)
+     
+      {
+            <tr>
+                <td><center><img src="@item.SliderImage" alt="Alternate Text" width="100px" height="60px" /></center></td>
+                <td>@item.StStatus</td>
+                <td><a href="javascript:void(0)" onclick="EditSlider(@item.SliderID);" class="btn btn-danger"><i class="fa fa-edit"></i></a></td>
+                <td><a href="javascript:void(0)" onclick="DeleteSlider(@item.SliderID);" class="btn btn-primary"><i class="fa fa-trash"></i></a></td>
+
+
+            </tr>
+        }
+
+
+
+    </tbody>
+</table>

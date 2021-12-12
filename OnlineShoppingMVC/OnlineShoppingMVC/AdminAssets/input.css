@@ -1,0 +1,12 @@
+input,option {
+  border-top-style: hidden;
+  border-right-style: hidden;
+  border-left-style: hidden;
+  border-bottom-style: hidden;
+  background-color: transparent;
+  width:90%
+}
+
+.no-outline:focus {
+  outline: none;
+}

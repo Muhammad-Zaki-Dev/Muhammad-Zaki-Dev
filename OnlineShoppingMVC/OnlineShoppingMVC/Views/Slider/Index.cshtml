@@ -1,0 +1,121 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="page-title-box">
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="state-information d-none d-sm-block">
+                    <div class="state-graph">
+                        <div id="header-chart-1"></div>
+                        <div class="info">Balance $ 2,317</div>
+                    </div>
+                    <div class="state-graph">
+                        <div id="header-chart-2"></div>
+                        <div class="info">Item Sold 1230</div>
+                    </div>
+                </div>
+
+                <h4 class="page-title">Form Validation</h4>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="javascript:void(0);">Agroxa</a></li>
+                    <li class="breadcrumb-item"><a href="javascript:void(0);">Forms</a></li>
+                    <li class="breadcrumb-item active">Slider Form</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <!-- end container-fluid -->
+
+</div>
+<!-- page-tiWtle-box -->
+
+<div class="page-content-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card m-b-20">
+                    <div class="card-body">
+                        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#ModalSlider">Add Slider</button>
+
+                        <div id="FrmSlider"></div>
+
+                    </div>
+                    <div class="card-body">
+                        <div id="DivPartial">
+
+
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- end col -->
+
+
+        </div> <!-- end row -->
+
+    </div>
+    <!-- end container-fluid -->
+    @section script{
+        <script>
+
+
+            $(document).ready(function () {
+                GetSliderForm();
+                GetSliderList();
+
+            });
+            function GetSliderList() {
+                $.ajax({
+                    type: 'GET',
+                    url: '/Slider/_GetTable',
+                    success: function (res) {
+                        $('#DivPartial').html(res);
+                        $('#datatable').DataTable();
+                    }
+                });
+            }
+            function GetSliderForm() {
+                $.ajax({
+                    type: 'GET',
+                    url: '/Slider/GetSliderForm',
+                    success: function (res) {
+                        $('#FrmSlider').html(res);
+                    }
+                });
+            }
+
+            function EditSlider(ID) {
+                $.ajax({
+                    type: 'GET',
+                    url: '/Slider/Update',
+                    data: { SliderID: ID },
+                    success: function (res) {
+                        $('#FrmSlider').html(res);
+                        $('#ModalSlider').modal('show');
+
+                    }
+                });
+
+            }
+            function DeleteSlider(ID) {
+                $.ajax({
+                    type: 'GET',
+                    url: '/Slider/Delete',
+                    data: { SliderID: ID },
+                    success: function (res) {
+                        if (res == 1) {
+                            toastr.info("Data is Deleted");
+                            GetSliderList();
+                        }
+                    }
+                });
+
+            }
+        </script>
+    }
+
+</div>
+<!-- end page content-->
